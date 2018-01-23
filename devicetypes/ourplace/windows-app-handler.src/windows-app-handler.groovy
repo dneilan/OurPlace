@@ -1,11 +1,11 @@
 /**
- *  Test Switching
+ *  Windows App Handler
  *
  *  Copyright 2017 DCVN
  *
  */
 metadata {
-	definition (name: "Test Switch", namespace: "OurPlace", author: "DCVN") {
+	definition (name: "Windows App Handler", namespace: "OurPlace", author: "DCVN") {
 		capability "Button"
         capability "Actuator"
         capability "Switch"
@@ -72,7 +72,7 @@ def parse(String description) {										// parse events into attributes
 }
 
 def sendEthernet(message) {														// Send Ethernet message
-	//log.debug "Http to Serenity - ${message}"
+	//log.debug "Http to controller - ${message}"
 	new physicalgraph.device.HubAction(method: "POST",	path: "${message}", headers: [ HOST: "${settings.ip + ":" + settings.port}" ])
 	}
 
@@ -87,24 +87,16 @@ def configure() {
 
 def parseStatus(dev, stat, lvl, label) {									// called/passed from webCore or SmartApp	
 	label = "${label.replaceAll(' ','_')}"									// replace spaces in label for later parsing
-//    stat=dostupid(stat, lvl)   
 	if (stat=='on') { 
         if (lvl >= 50) stat=2 							     			    // 2 = on
     	else stat=1															// 1 = dim
         }
     else stat=0																// 0 = off	
     def cmds = "${dev}:${stat}:${label}:Status"							    // device ID : status : level : label 
-    sendEthernet(cmds)														// send to Serenity via http parse method
+    sendEthernet(cmds)														// send to Controller via http parse method
 	}
     
-//-------------------------------------------------------------------------------------------------------------------------    
-    
-int dostupid(status, level) {
-	if (status == 'on' && level >= 50) return 2
-    if (status == 'on' && level <= 49) return 1
-    return 0
-    }
-    
+//-------------------------------------------------------------------------------------------------------------------------       
 
 def installed() {
 	log.debug "Installing"
