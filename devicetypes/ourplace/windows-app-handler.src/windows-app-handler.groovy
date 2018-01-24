@@ -7,6 +7,7 @@
 metadata {
 	definition (name: "Windows App Handler", namespace: "OurPlace", author: "DCVN") {
 		capability "Button"
+        capability "Holdable Button"
         capability "Actuator"
         capability "Switch"
         capability "Polling"
@@ -108,7 +109,7 @@ def updated() {
 
 def initialize() {
 	log.debug "Initializing"
-	sendEvent(name: "numberOfButtons", value: 8)
+	sendEvent(name: "numberOfButtons", value: 12)
     sendEvent(name: "WhosWhatsit", value: 42)
     //createChildDevices()
 	}
