@@ -1,0 +1,22 @@
+import hypermedia.net.*;
+ 
+ UDP udpTXR;                                                   // define the UDP object
+ String multicastIP = "239.255.255.250";                       // multicast address 239.255.255.250
+ int remotePort = 1900;                                        // the destination port
+ String buffer; 
+ 
+ void setup() { 
+  udpTXR = new UDP(this, remotePort, multicastIP);
+  udpTXR.loopback( false );                                    // turn off loopback
+  udpTXR.listen( true ); 
+ }
+ 
+void draw() {
+}
+
+void receive( byte[] data, String sendIP, int portRX ) { 
+    //println("Received from:"+sendIP+":"+portRX);
+      String buffer = new String(data);
+      println(trim(buffer));
+      println();
+      } 
